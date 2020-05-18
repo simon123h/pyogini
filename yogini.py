@@ -53,7 +53,7 @@ class Torso(Bodypart):
         endpos = (self.x + self.length*math.sin(self.angle),
                   self.y - self.length*math.cos(self.angle))
         draw_line(screen, self.color, self.pos,
-                         self.head.pos, self.thickness)
+                  self.head.pos, self.thickness)
         # draw head
         self.head.pos = endpos
         self.head.angle = self.angle
@@ -115,13 +115,13 @@ class Leg(Bodypart):
         knee_pos = (self.x+self.length/2*math.sin(angle),
                     self.y+self.length/2*math.cos(angle))
         draw_line(screen, self.color, self.pos,
-                         knee_pos, self.thickness)
+                  knee_pos, self.thickness)
         # draw lower leg
         angle += self.knee_angle
         foot_pos = (knee_pos[0]+self.length/2*math.sin(angle),
                     knee_pos[1]+self.length/2*math.cos(angle))
         draw_line(screen, self.color, knee_pos,
-                         foot_pos, self.thickness)
+                  foot_pos, self.thickness)
         # draw foot
         angle += self.foot_angle
         if self.level_foot:
@@ -129,7 +129,7 @@ class Leg(Bodypart):
         toe_pos = (foot_pos[0]+self.length/6*math.sin(angle),
                    foot_pos[1]+self.length/6*math.cos(angle))
         draw_line(screen, self.color, foot_pos,
-                         toe_pos, self.thickness)
+                  toe_pos, self.thickness)
 
 
 class Arm(Bodypart):
@@ -149,13 +149,13 @@ class Arm(Bodypart):
         elbow_pos = (self.x+self.length/2*math.sin(angle),
                      self.y+self.length/2*math.cos(angle))
         draw_line(screen, self.color, self.pos,
-                         elbow_pos, self.thickness)
+                  elbow_pos, self.thickness)
         # draw lower arm
         angle += self.elbow_angle
         hand_pos = (elbow_pos[0]+self.length/2*math.sin(angle),
                     elbow_pos[1]+self.length/2*math.cos(angle))
         draw_line(screen, self.color, elbow_pos,
-                         hand_pos, self.thickness)
+                  hand_pos, self.thickness)
         # draw hand
         angle += self.hand_angle
         if self.level_hand:
@@ -163,7 +163,7 @@ class Arm(Bodypart):
         finger_pos = (hand_pos[0]+self.length/8*math.sin(angle),
                       hand_pos[1]+self.length/8*math.cos(angle))
         draw_line(screen, self.color, hand_pos,
-                         finger_pos, self.thickness)
+                  finger_pos, self.thickness)
 
 
 # draw an anti-aliased line with rounded corners
@@ -183,7 +183,11 @@ def draw_line(screen, color, X0, X1, thickness):
           center_L1[1] - (thickness / 2.) * math.cos(angle) - (length / 2.) * math.sin(angle))
     pygame.gfxdraw.aapolygon(screen, (UL, UR, BR, BL), color)
     pygame.gfxdraw.filled_polygon(screen, (UL, UR, BR, BL), color)
-    pygame.gfxdraw.aacircle(screen, int(X0[0]), int(X0[1]), int(thickness/2), color)
-    pygame.gfxdraw.filled_circle(screen, int(X0[0]), int(X0[1]), int(thickness/2), color)
-    pygame.gfxdraw.aacircle(screen, int(X1[0]), int(X1[1]), int(thickness/2), color)
-    pygame.gfxdraw.filled_circle(screen, int(X1[0]), int(X1[1]), int(thickness/2), color)
+    pygame.gfxdraw.aacircle(screen, int(
+        X0[0]), int(X0[1]), int(thickness/2), color)
+    pygame.gfxdraw.filled_circle(screen, int(
+        X0[0]), int(X0[1]), int(thickness/2), color)
+    pygame.gfxdraw.aacircle(screen, int(
+        X1[0]), int(X1[1]), int(thickness/2), color)
+    pygame.gfxdraw.filled_circle(screen, int(
+        X1[0]), int(X1[1]), int(thickness/2), color)
