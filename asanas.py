@@ -158,7 +158,7 @@ class UpDog(Chaturanga):
     def __init__(self):
         super().__init__()
         self.name = "Upward Facing Dog"
-        self.body_angle = 65
+        self.body_angle = 60
         self.neck_angle = -40
         self.leg_angle_l = -15
         self.level_foot_l = False

@@ -39,8 +39,8 @@ while running:
 
     time += dt
 
-    # yogini.do_asana(sun_A.get_asana(time))
-    yogini.do_asana(sun_A.asanas[index % len(sun_A.asanas)])
+    yogini.do_asana(sun_A.get_asana(time))
+    # yogini.do_asana(sun_A.asanas[index % len(sun_A.asanas)])
 
     yogini.draw(screen)
 
