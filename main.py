@@ -2,6 +2,8 @@
 
 import pygame
 from yogini import Yogini
+import asanas
+from sequences import sun_A
 
 
 successes, failures = pygame.init()
@@ -16,6 +18,9 @@ FPS = 60
 # create the yogini
 yogini = Yogini()
 
+time = 0
+index = 0
+
 running = True
 while running:
     # Returns milliseconds between each call to 'tick'. The convert time to seconds.
@@ -27,9 +32,15 @@ while running:
             running = False
         if event.type == pygame.VIDEORESIZE:
             yogini.body.pos = [event.w / 2, event.h / 2]
-        # elif event.type == pygame.KEYDOWN:
-            # if event.key == pygame.K_w:
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_w:
+                index += 1
         # elif event.type == pygame.KEYUP:
+
+    time += dt
+
+    # yogini.do_asana(sun_A.get_asana(time))
+    yogini.do_asana(sun_A.asanas[index % len(sun_A.asanas)])
 
     yogini.draw(screen)
 
