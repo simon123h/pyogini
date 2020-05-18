@@ -8,7 +8,8 @@ successes, failures = pygame.init()
 print("Initializing pygame: {0} successes and {1} failures.".format(
     successes, failures))
 
-screen = pygame.display.set_mode((1024, 720))
+# screen = pygame.display.set_mode((1024, 720))
+screen = pygame.display.set_mode((0, 0), pygame.RESIZABLE)
 clock = pygame.time.Clock()
 FPS = 60
 
@@ -39,6 +40,10 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        if event.type == pygame.VIDEORESIZE:
+            # ssize = pygame.display.get_surface().get_size()
+            yogini.body.pos = [event.w / 2, event.h / 2]
+            print("resize:", yogini.body.pos)
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_w:
                 player.velocity[1] = -200 * dt  # 200 pixels per second

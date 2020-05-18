@@ -12,7 +12,7 @@ The Yogini: has a body and can perform Asanas
 class Yogini:
 
     def __init__(self):
-        # set up the body from its parts
+        # The torso is the "head node" of the body
         self.body = Torso()
 
     def draw(self, screen):
@@ -25,7 +25,7 @@ class Bodypart:
     def __init__(self):
         self.thickness = 6
         self.color = (0, 0, 0)
-        self.pos = (350, 200)  # spatial coordinates
+        self.pos = (0, 0)  # spatial coordinates
         self.angle = 0  # rotation
 
     @property
@@ -47,17 +47,19 @@ class Torso(Bodypart):
         self.leg_right = Leg()
         self.length = 80
         super().__init__()
+        ssize = pygame.display.get_surface().get_size()
+        self.pos = [ssize[0] / 2, ssize[1] / 2]
 
     def draw(self, screen):
-        # draw torso
-        endpos = (self.x + self.length*math.sin(self.angle),
-                  self.y - self.length*math.cos(self.angle))
-        draw_line(screen, self.color, self.pos,
-                  self.head.pos, self.thickness)
         # draw head
-        self.head.pos = endpos
+        neck_pos = (self.x + self.length*math.sin(self.angle),
+            self.y - self.length*math.cos(self.angle))
+        self.head.pos = neck_pos
         self.head.angle = self.angle
         self.head.draw(screen)
+        # draw torso
+        draw_line(screen, self.color, self.pos,
+                  self.head.pos, self.thickness)
         # draw arms
         shoulderpos = (self.x + self.length*0.9*math.sin(self.angle),
                        self.y - self.length*0.9*math.cos(self.angle))
@@ -93,9 +95,9 @@ class Head(Bodypart):
         pygame.gfxdraw.aacircle(screen, int(cpos[0]), int(cpos[1]),
                                 int(self.radius), self.color)
         pygame.gfxdraw.filled_circle(screen, int(cpos[0]), int(cpos[1]),
-                                     int(self.radius*0.8), (255, 255, 255))
+                                     int(self.radius*0.75), (255, 255, 255))
         pygame.gfxdraw.aacircle(screen, int(cpos[0]), int(cpos[1]),
-                                int(self.radius*0.8), (255, 255, 255))
+                                int(self.radius*0.75), (255, 255, 255))
 
 
 class Leg(Bodypart):
