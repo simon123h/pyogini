@@ -24,7 +24,9 @@ class Sequence:
         while time >= 0:
             index += 1
             time -= self.asanas[index].time
-        return self.asanas[index+shift_index], -time
+        index += shift_index
+        index = max(index, 0)
+        return self.asanas[index], -time
 
     def total_time(self):
         return sum([a.time for a in self.asanas])
