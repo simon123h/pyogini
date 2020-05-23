@@ -159,7 +159,7 @@ class Plank(Asana):
 class Lunge(Plank):
     def __init__(self):
         super().__init__()
-        self.leg_r.hip.angle = 170
+        self.leg_r.hip.angle = 166.5
         self.leg_r.knee.angle = 90
         self.leg_r.level_foot = True
 

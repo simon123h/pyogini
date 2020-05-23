@@ -1,5 +1,5 @@
 from asanas import *
-# todo: support nested sequences
+# TODO: support nested sequences
 
 
 class Sequence:
