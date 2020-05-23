@@ -1,20 +1,22 @@
 from asanas import *
-# TODO: support nested sequences
-
 
 class Sequence:
 
     def __init__(self, name):
         self.name = name
         self.asanas = []
+        self.breath_duration = 4
 
-    def add(self, asana, time=None, breath=None):
+    def add_asana(self, asana, breath=None, time=None):
         self.asanas.append(asana)
         if time is None:
-            time = 2 if breath is None else 4 * len(breath)
+            time = 2 if breath is None else self.breath_duration * len(breath)
         asana.time = time
         if breath is not None:
             asana.breath = breath
+
+    def append_sequence(self, sequence):
+        self.asanas += sequence.asanas
 
     def get_asana(self, time):
         time = time % self.total_time()
@@ -28,15 +30,53 @@ class Sequence:
         return sum([a.time for a in self.asanas])
 
 
+
+meditation = Sequence("Meditation")
+meditation.add_asana(ChildsPose(), "oi"*15)
+
+catcow = Sequence("Cat&Cow")
+catcow.add_asana(AllFours(), "io"*2)
+for i in range(5):
+    catcow.add_asana(Cow(), "i")
+    catcow.add_asana(Cat(), "o")
+
+
 sun_A = Sequence("Sun Salutation A")
-sun_A.add(Standing(), breath="io")
-sun_A.add(UpwardSalute(), breath="i")
-sun_A.add(ForwardFold(), breath="o")
-sun_A.add(HalfwayLift(), breath="i")
-sun_A.add(Lunge(), breath="o")
-sun_A.add(Plank(), breath="i")
-sun_A.add(Chaturanga(), breath="o")
-sun_A.add(UpDog(), breath="i")
-sun_A.add(DownDog(), breath="oioio")
-sun_A.add(Lunge(), breath="i")
-sun_A.add(ForwardFold(), breath="o")
+sun_A.add_asana(Standing(), "io")
+sun_A.add_asana(UpwardSalute(), "i")
+sun_A.add_asana(ForwardFold(), "o")
+sun_A.add_asana(HalfwayLift(), "i")
+sun_A.add_asana(LowLunge(), "o")
+sun_A.add_asana(Plank(), "i")
+sun_A.add_asana(Chaturanga(), "o")
+sun_A.add_asana(UpDog(), "i")
+sun_A.add_asana(DownDog(), "oioio")
+sun_A.add_asana(LowLunge(), "i")
+sun_A.add_asana(ForwardFold(), "o")
+
+sun_B = Sequence("Sun Salutation B")
+sun_B.add_asana(Chair(), "i")
+sun_B.add_asana(ForwardFold(), "o")
+sun_B.add_asana(HalfwayLift(), "i")
+sun_B.add_asana(LowLunge(), "o")
+sun_B.add_asana(Plank(), "i")
+sun_B.add_asana(Chaturanga(), "o")
+sun_B.add_asana(UpDog(), "i")
+sun_B.add_asana(DownDog(), "o")
+sun_B.add_asana(Warrior1(), "i")
+sun_B.add_asana(LowLunge(), "o")
+sun_B.add_asana(Plank(), "i")
+sun_B.add_asana(Chaturanga(), "o")
+sun_B.add_asana(UpDog(), "i")
+sun_B.add_asana(DownDog(), "o")
+sun_B.add_asana(Warrior1(), "i")
+sun_B.add_asana(LowLunge(), "o")
+sun_B.add_asana(Plank(), "i")
+sun_B.add_asana(Chaturanga(), "o")
+sun_B.add_asana(UpDog(), "i")
+sun_B.add_asana(DownDog(), "oioioioioio")
+sun_B.add_asana(LowLunge(), "i")
+sun_B.add_asana(ForwardFold(), "o")
+
+
+# todo: vinyasas: sit-stand sit-lie, etc..

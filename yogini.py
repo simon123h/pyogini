@@ -72,6 +72,7 @@ class Yogini:
         # general body rotation
         asana.orientate()
         self.body.angle = asana.angle
+        self.body.bending = asana.bending
         # adapt all joint angles
         for my_joint, asana_joint in zip(self.body.joints, asana.joints):
             my_joint.angle = asana_joint.angle
@@ -85,6 +86,7 @@ class Yogini:
         asana1.orientate()
         asana2.orientate()
         self.body.angle = asana1.angle*(1-ratio) + asana2.angle*ratio
+        self.body.bending = asana1.bending*(1-ratio) + asana2.bending*ratio
         # adapt all joint angles
         for my_joint, asana1_joint, asana2_joint in zip(self.body.joints, asana1.joints, asana2.joints):
             my_joint.angle = asana1_joint.angle*(1-ratio) + asana2_joint.angle*ratio

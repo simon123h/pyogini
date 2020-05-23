@@ -2,7 +2,7 @@
 
 import pygame
 from yogini import Yogini
-from sequences import sun_A
+from sequences import sun_A, sun_B, meditation, catcow
 
 
 successes, failures = pygame.init()
@@ -18,7 +18,7 @@ FPS = 60
 yogini = Yogini()
 ssize = pygame.display.get_surface().get_size()
 yogini.body.pos = [ssize[0] / 2, ssize[1] / 2]
-yogini.sequence = sun_A
+yogini.sequence = sun_B
 
 time = 0
 

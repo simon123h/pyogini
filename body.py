@@ -1,7 +1,7 @@
 import math
 import pygame
 import pygame.gfxdraw
-from gui import draw_line
+from gui import draw_line, draw_parabola
 
 
 class Joint:
@@ -39,6 +39,7 @@ class Body(Bodypart):
         self.leg_l = Leg()
         self.leg_r = Leg()
         self.pos = (0, 0)  # spatial coordinates
+        self.bending = 0
         # list of all joints
         self.joints = [self.neck, self.head.crown,
                        self.arm_l.shoulder, self.arm_l.elbow, self.arm_l.hand, self.arm_l.finger,
@@ -75,8 +76,8 @@ class Body(Bodypart):
         # draw head
         self.head.draw(screen)
         # draw torso
-        draw_line(screen, self.color, self.pos,
-                  self.head.neck.pos, self.thickness)
+        draw_parabola(screen, self.color, self.pos, self.head.neck.pos,
+                 self.bending, self.thickness)
         # draw arms
         self.arm_l.draw(screen)
         self.arm_r.draw(screen)

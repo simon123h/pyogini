@@ -30,3 +30,19 @@ def draw_line(screen, color, X0, X1, thickness):
         X1[0]), int(X1[1]), int(thickness/2), color)
     pygame.gfxdraw.filled_circle(screen, int(
         X1[0]), int(X1[1]), int(thickness/2), color)
+
+
+# draw a parabolic arc that consists of line segments
+def draw_parabola(screen, color, X0, X1, bow, thickness, nsegments=20):
+    X0 = np.array(X0)
+    X1 = np.array(X1)
+    dx = np.linalg.norm(X1-X0)/nsegments
+    # unit vectors
+    unit_x = (X1-X0)
+    unit_x /= np.linalg.norm(unit_x)
+    unit_y = np.array([-unit_x[1], unit_x[0]])
+    X_old = X0
+    for n in range(nsegments+1):
+        X_new = X0 + n*unit_x*dx + bow * ((n/nsegments-0.5)**2 - 0.25) * unit_y
+        draw_line(screen, color, X_old, X_new, thickness)
+        X_old = X_new

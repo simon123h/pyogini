@@ -165,11 +165,13 @@ class Plank(Asana):
         self.align_joints(self.leg_l.toe, self.arm_l.hand, 0)
 
 
-class Lunge(Plank):
+class LowLunge(Plank):
     def __init__(self):
         super().__init__()
         self.leg_r.hip.angle = 166.5
         self.leg_r.knee.angle = 90
+        self.name = "Low Lunge"
+        self.sanskrit = "Ashwa Sanchalanasana"
 
     # let the toes and hands touch the ground
     def orientate(self):
@@ -209,7 +211,6 @@ class DownDog(Asana):
     def __init__(self):
         super().__init__()
         self.name = "Downward Facing Dog"
-        self.angle = 130
         self.head.neck.angle = 20
         self.leg_l.hip.angle = 85
         self.arm_l.shoulder.angle = 190
@@ -220,3 +221,101 @@ class DownDog(Asana):
     def orientate(self):
         self.align_hands_with_ground()
         self.align_joints(self.leg_l.toe, self.arm_l.hand, 0)
+
+
+
+class ChildsPose(Asana):
+    def __init__(self):
+        super().__init__()
+        self.name = "Child's Pose"
+        self.sanskrit = "Balasana"
+        self.head.neck.angle = -20
+        self.leg_l.hip.angle = 155
+        self.leg_l.knee.angle = 150
+        self.leg_l.foot.angle = 20
+        self.arm_l.shoulder.angle = 170
+        self.arm_l.elbow.angle = 0
+        self.sync_lr()
+
+    # let the toes and hands touch the ground
+    def orientate(self):
+        self.align_hands_with_ground()
+        self.align_joints(self.leg_l.toe, self.arm_l.hand, 0)
+
+
+
+class AllFours(Asana):
+    def __init__(self):
+        super().__init__()
+        self.name = "On All Fours"
+        self.head.neck.angle = 0
+        self.leg_l.hip.angle = 80
+        self.leg_l.knee.angle = 90
+        self.leg_l.foot.angle = 10
+        self.arm_l.shoulder.angle = 90
+        self.arm_l.elbow.angle = 20
+        self.sync_lr()
+
+    # let the toes and hands touch the ground
+    def orientate(self):
+        self.align_hands_with_ground()
+        self.align_joints(self.leg_l.toe, self.arm_l.hand, 0)
+
+
+class Cat(AllFours):
+    def __init__(self):
+        super().__init__()
+        self.name = "Cat"
+        self.sanskrit = "Cakravakasana"
+        self.head.neck.angle = 30
+        self.bending = 30
+        self.sync_lr()
+
+
+class Cow(AllFours):
+    def __init__(self):
+        super().__init__()
+        self.name = "Cow"
+        self.sanskrit = "Bitilasana"
+        self.head.neck.angle = -30
+        self.bending = -30
+        self.sync_lr()
+
+
+class Chair(Standing):
+    def __init__(self):
+        super().__init__()
+        self.name = "Chair Pose"
+        self.sanskrit = "Utkatasana"
+        self.bending = -30
+        self.leg_l.hip.angle = 90
+        self.leg_l.knee.angle = 100
+        self.arm_l.shoulder.angle = 150
+        self.arm_l.elbow.angle = 0
+        self.arm_l.hand.angle = 0
+        self.head.neck.angle = -20
+        # sync left-right
+        self.sync_lr()
+
+    # let the hip be above the feet
+    def orientate(self):
+        self.align_feet_with_ground()
+        self.align_joints(self.arm_l.shoulder, self.leg_l.toe, 90)
+
+
+class Warrior1(Plank):
+    def __init__(self):
+        super().__init__()
+        self.leg_l.hip.angle = 5-40
+        self.leg_r.hip.angle = 166.5-40
+        self.leg_r.knee.angle = 90
+        self.bending = -30
+        self.neck.angle = -20
+        self.arm_l.shoulder.angle = 190
+        self.arm_l.hand.angle = 0
+        self.sync_arms_lr()
+
+    # let the toes and hands touch the ground
+    def orientate(self):
+        self.align_feet_with_ground(left=False)
+        self.align_joints(self.leg_l.toe, self.leg_r.foot, 0)
