@@ -79,4 +79,12 @@ sun_B.add_asana(LowLunge(), "i")
 sun_B.add_asana(ForwardFold(), "o")
 
 
+ashtanga = Sequence("Ashtanga Yoga")
+# ashtanga.append_sequence(meditation)
+ashtanga.append_sequence(catcow)
+for i in range(4):
+    ashtanga.append_sequence(sun_A)
+for i in range(4):
+    ashtanga.append_sequence(sun_B)
+
 # todo: vinyasas: sit-stand sit-lie, etc..

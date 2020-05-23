@@ -2,7 +2,7 @@
 
 import pygame
 from yogini import Yogini
-from sequences import sun_A, sun_B, meditation, catcow
+from sequences import sun_A, sun_B, meditation, catcow, ashtanga
 
 
 successes, failures = pygame.init()
@@ -18,7 +18,7 @@ FPS = 60
 yogini = Yogini()
 ssize = pygame.display.get_surface().get_size()
 yogini.body.pos = [ssize[0] / 2, ssize[1] / 2]
-yogini.sequence = sun_B
+yogini.sequence = sun_A
 
 time = 0
 
@@ -26,7 +26,7 @@ running = True
 while running:
     # Returns milliseconds between each call to 'tick'. The convert time to seconds.
     dt = clock.tick(FPS) / 1000
-    screen.fill((255, 255, 255))  # Fill the screen with background color.
+    screen.fill((255, 218, 148))  # Fill the screen with background color.
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
