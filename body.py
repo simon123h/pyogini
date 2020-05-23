@@ -41,24 +41,16 @@ class Body(Bodypart):
         self.pos = (0, 0)  # spatial coordinates
         super().__init__()
 
-    @property
-    def x(self):
-        return self.pos[0]
-
-    @property
-    def y(self):
-        return self.pos[1]
-
     # update the position and rotation of the joints
     def update(self):
         # update head position
-        self.head.neck.pos = (self.x + self.length*math.sin(self.angle),
-                              self.y - self.length*math.cos(self.angle))
+        self.head.neck.pos = (self.pos[0] + self.length*math.sin(self.angle),
+                              self.pos[1] - self.length*math.cos(self.angle))
         self.head.angle = self.angle
         self.head.update()
         # update arm positions
-        self.arm_l.shoulder.pos = (self.x + self.length*0.9*math.sin(self.angle),
-                                   self.y - self.length*0.9*math.cos(self.angle))
+        self.arm_l.shoulder.pos = (self.pos[0] + self.length*0.9*math.sin(self.angle),
+                                   self.pos[1] - self.length*0.9*math.cos(self.angle))
         self.arm_l.angle = self.angle
         self.arm_l.update()
         self.arm_r.shoulder.pos = self.arm_l.shoulder.pos
