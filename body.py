@@ -164,8 +164,8 @@ class Leg(Bodypart):
         self.foot.pos = (self.knee.x+self.length/2*math.sin(angle),
                          self.knee.y+self.length/2*math.cos(angle))
         angle += self.foot.angle * math.pi / 180
-        self.toe.pos = (self.foot.x+self.length/6*math.sin(angle),
-                        self.foot.y+self.length/6*math.cos(angle))
+        self.toe.pos = (self.foot.x+self.length/8*math.sin(angle),
+                        self.foot.y+self.length/8*math.cos(angle))
 
     def draw(self, screen):
         # draw upper leg
