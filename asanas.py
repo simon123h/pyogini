@@ -225,7 +225,7 @@ class UpDog(Chaturanga):
         self.leg_l.foot.angle = -5
         self.arm_l.shoulder.angle = 45
         self.arm_l.elbow.angle = 10
-        self.bending = -40
+        self.bending = -25
         self.sync_lr()
 
 
