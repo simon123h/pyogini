@@ -19,7 +19,7 @@ class Sequence:
         while time >= 0:
             index += 1
             time -= self.timing[index]
-        return self.asanas[index]
+        return self.asanas[index], -time
 
     def total_time(self):
         return sum(self.timing)

@@ -32,8 +32,14 @@ class Yogini:
 
     def live(self, time):
         # do everything a yogi does!
-        asana = self.sequence.get_asana(time)
-        self.do_asana(asana)
+        asana, time_left = self.sequence.get_asana(time)
+        transition_time = 0.5
+        if time_left < transition_time:
+            next_asana, _ = self.sequence.get_asana(time+transition_time)
+            ratio = 1 - time_left / transition_time
+            self.interpolate_asanas(asana, next_asana, ratio)
+        else:
+            self.do_asana(asana)
 
     def do_asana(self, asana):
         # general body rotation
