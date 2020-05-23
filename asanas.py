@@ -146,7 +146,7 @@ class HalfwayLift(ForwardFold):
         self.name = "Halfway Fold"
         self.sanskrit = "Ardha Uttanasana"
         self.head.neck.angle = -20
-        self.bending = -20
+        self.bending = -30
         # sync left-right
         self.sync_lr()
 
@@ -223,7 +223,7 @@ class UpDog(Chaturanga):
         self.leg_l.hip.angle = -30
         self.leg_l.knee.angle = 5
         self.leg_l.foot.angle = -5
-        self.arm_l.shoulder.angle = 65
+        self.arm_l.shoulder.angle = 45
         self.arm_l.elbow.angle = 10
         self.bending = -40
         self.sync_lr()

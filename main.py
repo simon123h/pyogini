@@ -18,7 +18,7 @@ FPS = 60
 yogini = Yogini()
 ssize = pygame.display.get_surface().get_size()
 yogini.body.pos = [ssize[0] / 2, ssize[1] / 2]
-yogini.sequence = sun_A
+yogini.sequence = ashtanga
 
 time = 0
 

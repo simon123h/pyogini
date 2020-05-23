@@ -5,7 +5,7 @@ class Studio:
 
     def __init__(self):
         # height of the ground
-        self.ground_level = 500
+        self.ground_level = 560
 
     def draw(self, screen):
         # draw bottom line
