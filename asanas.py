@@ -173,7 +173,6 @@ class DownDog(Asana):
     def __init__(self):
         super().__init__()
         self.name = "Downward Facing Dog"
-        self.name = "Upwards Facing Dog"
         self.body_angle = 130
         self.neck_angle = 20
         self.leg_angle_l = 85
