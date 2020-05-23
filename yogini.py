@@ -4,6 +4,8 @@ from body import Body
 from studio import Studio
 from sequences import Sequence
 from asanas import Asana
+import pygame
+import random
 
 """
 The Yogini: has a body and can perform Asanas
@@ -21,6 +23,10 @@ class Yogini:
         self.sequence = None
         # Start with a basic asana
         self.do_asana(Asana())
+        # was last breath in or out?
+        self.last_breath = None
+        # time [sec] for transitions between asanas
+        self.transition_time = 1.5
 
     def draw(self, screen):
         # draw the studio
@@ -33,13 +39,34 @@ class Yogini:
     def live(self, time):
         # do everything a yogi does!
         asana, time_left = self.sequence.get_asana(time)
-        transition_time = 0.75
-        if time_left < transition_time:
-            next_asana, _ = self.sequence.get_asana(time+transition_time)
-            ratio = 1 - time_left / transition_time
-            self.interpolate_asanas(asana, next_asana, ratio)
+        time_in = asana.time - time_left
+        if time_in < self.transition_time:
+            prev_asana, _ = self.sequence.get_asana(time-self.transition_time)
+            ratio = time_in / self.transition_time
+            # TODO: use better easing, e.g.:
+            ratio = 0.5*(1.1048*np.tanh(3*(ratio-0.5))+1)
+            self.interpolate_asanas(prev_asana, asana, ratio)
         else:
             self.do_asana(asana)
+        # breathe
+        if asana.breath != "":
+            breath_index = math.floor(time_in / asana.time * len(asana.breath))
+            self.breathe(asana.breath[breath_index])
+
+    # make breathing sounds
+    def breathe(self, io):
+        # don't breathe in twice...
+        if io == self.last_breath:
+            return
+        random_id = str(random.randint(1, 3))
+        # breathe in
+        if io == "i":
+            pygame.mixer.Sound("res/breath_in_"+random_id+".ogg").play()
+            self.last_breath = io
+        # breathe out
+        if io == "o":
+            pygame.mixer.Sound("res/breath_out_"+random_id+".ogg").play()
+            self.last_breath = io
 
     def do_asana(self, asana):
         # general body rotation
