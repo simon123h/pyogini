@@ -40,11 +40,10 @@ class Yogini:
         # do everything a yogi does!
         asana, time_left = self.sequence.get_asana(time)
         time_in = asana.time - time_left
-        transition_time = min(asana.time*0.5, self.transition_time)
+        transition_time = min(asana.time*0.8, self.transition_time)
         if time_in < transition_time:
-            prev_asana, _ = self.sequence.get_asana(time-transition_time)
+            prev_asana, _ = self.sequence.get_asana(time, -1)
             ratio = time_in / transition_time
-            # TODO: use better easing, e.g.:
             ratio = 0.5*(1.1048*np.tanh(3*(ratio-0.5))+1)
             self.interpolate_asanas(prev_asana, asana, ratio)
         else:

@@ -160,6 +160,7 @@ class Plank(Asana):
         self.leg_l.hip.angle = 5
         self.leg_l.foot.angle = 80
         self.sync_lr()
+        self.name = "Plank"
 
     # let the toes and hands touch the ground
     def orientate(self):
@@ -179,6 +180,23 @@ class LowLunge(Plank):
     def orientate(self):
         self.align_hands_with_ground()
         self.align_feet_with_ground(left=False)
+        self.align_joints(self.leg_l.toe, self.arm_l.hand, 0)
+
+
+class LowLungeToPlankHelper(LowLunge):
+    def __init__(self):
+        super().__init__()
+        self.leg_l.hip.angle = 20
+        self.leg_r.hip.angle = 100
+        self.leg_r.knee.angle = 140
+        self.leg_r.foot.angle = 180
+        self.name = ""
+        self.sanskrit = ""
+
+    # let the toes and hands touch the ground
+    def orientate(self):
+        self.align_hands_with_ground()
+        # self.align_feet_with_ground(left=False)
         self.align_joints(self.leg_l.toe, self.arm_l.hand, 0)
 
 

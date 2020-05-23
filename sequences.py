@@ -18,13 +18,13 @@ class Sequence:
     def append_sequence(self, sequence):
         self.asanas += sequence.asanas
 
-    def get_asana(self, time):
+    def get_asana(self, time, shift_index=0):
         time = time % self.total_time()
         index = -1
         while time >= 0:
             index += 1
             time -= self.asanas[index].time
-        return self.asanas[index], -time
+        return self.asanas[index+shift_index], -time
 
     def total_time(self):
         return sum([a.time for a in self.asanas])
@@ -47,6 +47,7 @@ sun_A.add_asana(UpwardSalute(), "i")
 sun_A.add_asana(ForwardFold(), "o")
 sun_A.add_asana(HalfwayLift(), "i")
 sun_A.add_asana(LowLunge(), "o")
+sun_A.add_asana(LowLungeToPlankHelper(), time=1.5, breath="")
 sun_A.add_asana(Plank(), "i")
 sun_A.add_asana(Chaturanga(), "o")
 sun_A.add_asana(UpDog(), "i")
@@ -59,18 +60,21 @@ sun_B.add_asana(Chair(), "i")
 sun_B.add_asana(ForwardFold(), "o")
 sun_B.add_asana(HalfwayLift(), "i")
 sun_B.add_asana(LowLunge(), "o")
+sun_A.add_asana(LowLungeToPlankHelper(), time=1.5, breath="")
 sun_B.add_asana(Plank(), "i")
 sun_B.add_asana(Chaturanga(), "o")
 sun_B.add_asana(UpDog(), "i")
 sun_B.add_asana(DownDog(), "o")
 sun_B.add_asana(Warrior1(), "i")
 sun_B.add_asana(LowLunge(), "o")
+sun_A.add_asana(LowLungeToPlankHelper(), time=1.5, breath="")
 sun_B.add_asana(Plank(), "i")
 sun_B.add_asana(Chaturanga(), "o")
 sun_B.add_asana(UpDog(), "i")
 sun_B.add_asana(DownDog(), "o")
 sun_B.add_asana(Warrior1(), "i")
 sun_B.add_asana(LowLunge(), "o")
+sun_A.add_asana(LowLungeToPlankHelper(), time=1.5, breath="")
 sun_B.add_asana(Plank(), "i")
 sun_B.add_asana(Chaturanga(), "o")
 sun_B.add_asana(UpDog(), "i")
