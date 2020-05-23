@@ -33,7 +33,7 @@ class Yogini:
     def live(self, time):
         # do everything a yogi does!
         asana, time_left = self.sequence.get_asana(time)
-        transition_time = 0.5
+        transition_time = 0.75
         if time_left < transition_time:
             next_asana, _ = self.sequence.get_asana(time+transition_time)
             ratio = 1 - time_left / transition_time
@@ -48,11 +48,6 @@ class Yogini:
         # adapt all joint angles
         for my_joint, asana_joint in zip(self.body.joints, asana.joints):
             my_joint.angle = asana_joint.angle
-        # adapt all booleans
-        self.body.arm_l.level_hand = asana.arm_l.level_hand
-        self.body.arm_r.level_hand = asana.arm_r.level_hand
-        self.body.leg_l.level_foot = asana.leg_l.level_foot
-        self.body.leg_r.level_foot = asana.leg_r.level_foot
         # update the position of all body parts
         self.body.update()
         # make sure that we always stand on the ground

@@ -17,8 +17,6 @@ class Asana(Body):
         self.arm_r.elbow.angle = 45
         self.arm_l.hand.angle = 90
         self.arm_r.hand.angle = 90
-        self.arm_l.level_hand = False
-        self.arm_r.level_hand = False
         # legs
         self.leg_l.hip.angle = 0
         self.leg_r.hip.angle = 0
@@ -26,8 +24,6 @@ class Asana(Body):
         self.leg_r.knee.angle = 0
         self.leg_l.foot.angle = 90
         self.leg_r.foot.angle = 90
-        self.leg_l.level_foot = False
-        self.leg_r.level_foot = False
 
     # make sure that we have the correct orientation (orientation fct. vanishes)
     def orientate(self):
@@ -36,33 +32,46 @@ class Asana(Body):
     # align two given joints so that they build a given angle with the ground
     def align_joints(self, joint1, joint2, angle=0):
         self.update()
-        self.angle += angle + math.atan2(
-            joint1.y - joint2.y,
-            joint2.x - joint1.x) * 180 / math.pi
+        self.angle += angle + self.angle_with_ground(joint1, joint2)
+
+    def align_hands_with_ground(self, left=True, right=True):
+        self.update()
+        if left:
+            self.arm_l.hand.angle = -self.angle_with_ground(self.arm_l.elbow, self.arm_l.hand)
+        if right:
+            self.arm_r.hand.angle = -self.angle_with_ground(self.arm_r.elbow, self.arm_r.hand)
+
+    def align_feet_with_ground(self, left=True, right=True):
+        self.update()
+        if left:
+            self.leg_l.foot.angle = -self.angle_with_ground(self.leg_l.knee, self.leg_l.foot)
+        if right:
+            self.leg_r.foot.angle = -self.angle_with_ground(self.leg_r.knee, self.leg_r.foot)
+
+    # returns the angle between the line between two joints and thr ground
+    @staticmethod
+    def angle_with_ground(joint1, joint2):
+        return math.atan2(joint1.y - joint2.y, joint2.x - joint1.x) * 180 / math.pi
 
     def sync_arms_lr(self):
         self.arm_r.shoulder.angle = self.arm_l.shoulder.angle
         self.arm_r.elbow.angle = self.arm_l.elbow.angle
         self.arm_r.hand.angle = self.arm_l.hand.angle
-        self.arm_r.level_hand = self.arm_l.level_hand
 
     def sync_arms_rl(self):
         self.arm_l.shoulder.angle = self.arm_r.shoulder.angle
         self.arm_l.elbow.angle = self.arm_r.elbow.angle
         self.arm_l.hand.angle = self.arm_r.hand.angle
-        self.arm_l.level_hand = self.arm_r.level_hand
 
     def sync_legs_lr(self):
         self.leg_r.hip.angle = self.leg_l.hip.angle
         self.leg_r.knee.angle = self.leg_l.knee.angle
         self.leg_r.foot.angle = self.leg_l.foot.angle
-        self.leg_r.level_foot = self.leg_l.level_foot
 
     def sync_legs_rl(self):
         self.leg_l.hip.angle = self.leg_r.hip.angle
         self.leg_l.knee.angle = self.leg_r.knee.angle
         self.leg_l.foot.angle = self.leg_r.foot.angle
-        self.leg_l.level_foot = self.leg_r.level_foot
 
     def sync_lr(self):
         self.sync_arms_lr()
@@ -85,22 +94,19 @@ class Standing(Asana):
         self.arm_l.shoulder.angle = 0
         self.arm_l.elbow.angle = 0
         self.arm_l.hand.angle = 0
-        self.arm_l.level_hand = False
         self.arm_l.shoulder.angle = 10
         self.arm_l.elbow.angle = 140
-        self.arm_l.hand.angle = -20
+        self.arm_l.hand.angle = 0
         # legs
         self.leg_l.hip.angle = 0
         self.leg_l.knee.angle = 0
         self.leg_l.foot.angle = 90
-        self.leg_l.level_foot = True
         # sync left-right
         self.sync_lr()
 
     # let the hip be above the feet
     def orientate(self):
         self.align_joints(self.leg_l.hip, self.leg_l.foot, 90)
-
 
 
 class UpwardSalute(Standing):
@@ -145,14 +151,14 @@ class Plank(Asana):
         super().__init__()
         self.arm_l.shoulder.angle = 80
         self.arm_l.elbow.angle = 0
-        self.arm_l.level_hand = True
+        self.arm_l.hand.angle = 70
         self.leg_l.hip.angle = 5
-        self.leg_l.level_foot = False
         self.leg_l.foot.angle = 80
         self.sync_lr()
 
     # let the toes and hands touch the ground
     def orientate(self):
+        self.align_hands_with_ground()
         self.align_joints(self.leg_l.toe, self.arm_l.hand, 0)
 
 
@@ -161,7 +167,12 @@ class Lunge(Plank):
         super().__init__()
         self.leg_r.hip.angle = 166.5
         self.leg_r.knee.angle = 90
-        self.leg_r.level_foot = True
+
+    # let the toes and hands touch the ground
+    def orientate(self):
+        self.align_hands_with_ground()
+        self.align_feet_with_ground(left=False)
+        self.align_joints(self.leg_l.toe, self.arm_l.hand, 0)
 
 
 class Chaturanga(Plank):
@@ -173,9 +184,7 @@ class Chaturanga(Plank):
         self.head.neck.angle = -20
         self.arm_l.shoulder.angle = -40
         self.arm_l.elbow.angle = 120
-        self.arm_l.level_hand = True
         self.leg_l.hip.angle = 0
-        self.leg_l.level_foot = False
         self.leg_l.foot.angle = 80
         self.sync_lr()
 
@@ -187,7 +196,6 @@ class UpDog(Chaturanga):
         self.angle = 60
         self.head.neck.angle = -40
         self.leg_l.hip.angle = -15
-        self.leg_l.level_foot = False
         self.leg_l.foot.angle = 0
         self.arm_l.shoulder.angle = 65
         self.arm_l.elbow.angle = 0
@@ -201,8 +209,6 @@ class DownDog(Asana):
         self.angle = 130
         self.head.neck.angle = 20
         self.leg_l.hip.angle = 85
-        self.leg_l.level_foot = True
-        self.arm_l.level_hand = True
         self.arm_l.shoulder.angle = 190
         self.arm_l.elbow.angle = 0
         self.sync_lr()

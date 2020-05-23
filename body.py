@@ -114,7 +114,6 @@ class Arm(Bodypart):
 
     def __init__(self):
         self.length = 65
-        self.level_hand = False
         self.shoulder = Joint()
         self.elbow = Joint()
         self.hand = Joint()
@@ -129,9 +128,7 @@ class Arm(Bodypart):
         angle += self.elbow.angle * math.pi / 180
         self.hand.pos = (self.elbow.x+self.length/2*math.sin(angle),
                          self.elbow.y+self.length/2*math.cos(angle))
-        angle += -self.hand.angle * math.pi / 180
-        if self.level_hand:
-            angle = math.pi / 2
+        angle += self.hand.angle * math.pi / 180
         self.finger.pos = (self.hand.x+self.length/10*math.sin(angle),
                            self.hand.y+self.length/10*math.cos(angle))
 
@@ -151,7 +148,6 @@ class Leg(Bodypart):
 
     def __init__(self):
         self.length = 100
-        self.level_foot = True
         self.hip = Joint()
         self.knee = Joint()
         self.foot = Joint()
@@ -168,8 +164,6 @@ class Leg(Bodypart):
         self.foot.pos = (self.knee.x+self.length/2*math.sin(angle),
                          self.knee.y+self.length/2*math.cos(angle))
         angle += self.foot.angle * math.pi / 180
-        if self.level_foot:
-            angle = math.pi / 2
         self.toe.pos = (self.foot.x+self.length/6*math.sin(angle),
                         self.foot.y+self.length/6*math.cos(angle))
 
