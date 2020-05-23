@@ -40,9 +40,10 @@ class Yogini:
         # do everything a yogi does!
         asana, time_left = self.sequence.get_asana(time)
         time_in = asana.time - time_left
-        if time_in < self.transition_time:
-            prev_asana, _ = self.sequence.get_asana(time-self.transition_time)
-            ratio = time_in / self.transition_time
+        transition_time = min(asana.time*0.5, self.transition_time)
+        if time_in < transition_time:
+            prev_asana, _ = self.sequence.get_asana(time-transition_time)
+            ratio = time_in / transition_time
             # TODO: use better easing, e.g.:
             ratio = 0.5*(1.1048*np.tanh(3*(ratio-0.5))+1)
             self.interpolate_asanas(prev_asana, asana, ratio)
@@ -88,8 +89,10 @@ class Yogini:
         self.body.angle = asana1.angle*(1-ratio) + asana2.angle*ratio
         self.body.bending = asana1.bending*(1-ratio) + asana2.bending*ratio
         # adapt all joint angles
-        for my_joint, asana1_joint, asana2_joint in zip(self.body.joints, asana1.joints, asana2.joints):
-            my_joint.angle = asana1_joint.angle*(1-ratio) + asana2_joint.angle*ratio
+        for my_joint, asana1_joint, asana2_joint in zip(
+                self.body.joints, asana1.joints, asana2.joints):
+            my_joint.angle = asana1_joint.angle * \
+                (1-ratio) + asana2_joint.angle*ratio
         # update the position of all body parts
         self.body.update()
         # make sure that we always stand on the ground
@@ -101,4 +104,3 @@ class Yogini:
         self.body.pos = (self.body.pos[0],
                          self.body.pos[1]-miny+self.studio.ground_level-self.body.leg_l.thickness)
         self.body.update()
-
