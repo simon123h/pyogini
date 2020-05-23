@@ -21,6 +21,7 @@ yogini.body.pos = [ssize[0] / 2, ssize[1] / 2]
 
 time = 0
 index = 0
+latest_asana = None
 
 running = True
 while running:
@@ -40,8 +41,10 @@ while running:
 
     time += dt
 
-    yogini.do_asana(sun_A.get_asana(time))
-    # yogini.do_asana(sun_A.asanas[index % len(sun_A.asanas)])
+    asana = sun_A.get_asana(time)
+    if latest_asana is not asana:
+        yogini.do_asana(asana)
+        latest_asana = asana
 
     yogini.draw(screen)
 

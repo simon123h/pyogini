@@ -1,4 +1,6 @@
 from body import Body
+import math
+
 
 class Asana(Body):
 
@@ -6,8 +8,6 @@ class Asana(Body):
         super().__init__()
         self.name = ""
         self.sanskrit = ""
-        # torso
-        self.angle = 0
         # head
         self.neck.angle = 0
         # arms
@@ -26,8 +26,19 @@ class Asana(Body):
         self.leg_r.knee.angle = 0
         self.leg_l.foot.angle = 90
         self.leg_r.foot.angle = 90
-        self.leg_l.level_foot = True
-        self.leg_r.level_foot = True
+        self.leg_l.level_foot = False
+        self.leg_r.level_foot = False
+
+    # make sure that we have the correct orientation (orientation fct. vanishes)
+    def orientate(self):
+        self.align_joints(self.leg_l.hip, self.leg_l.foot, 90)
+
+    # align two given joints so that they build a given angle with the ground
+    def align_joints(self, joint1, joint2, angle=0):
+        self.update()
+        self.angle += angle + math.atan2(
+            joint1.y - joint2.y,
+            joint2.x - joint1.x) * 180 / math.pi
 
     def sync_arms_lr(self):
         self.arm_r.shoulder.angle = self.arm_l.shoulder.angle
@@ -68,8 +79,6 @@ class Standing(Asana):
         super().__init__()
         self.name = "Mountain Pose"
         self.sanskrit = "Tadasana"
-        # torso
-        self.angle = 0
         # head
         self.head.neck.angle = 0
         # arms
@@ -87,6 +96,11 @@ class Standing(Asana):
         self.leg_l.level_foot = True
         # sync left-right
         self.sync_lr()
+
+    # let the hip be above the feet
+    def orientate(self):
+        self.align_joints(self.leg_l.hip, self.leg_l.foot, 90)
+
 
 
 class UpwardSalute(Standing):
@@ -107,7 +121,6 @@ class ForwardFold(Standing):
         super().__init__()
         self.name = "Forward Fold"
         self.sanskrit = "Uttanasana"
-        self.angle = 122
         self.leg_l.hip.angle = 122
         self.arm_l.shoulder.angle = 100
         self.arm_l.elbow.angle = 0
@@ -120,16 +133,16 @@ class ForwardFold(Standing):
 class HalfwayLift(ForwardFold):
     def __init__(self):
         super().__init__()
+        self.name = "Halfway Fold"
         self.sanskrit = "Ardha Uttanasana"
         self.head.neck.angle = -20
         # sync left-right
         self.sync_lr()
 
 
-class Plank(Standing):
+class Plank(Asana):
     def __init__(self):
         super().__init__()
-        self.angle = 77
         self.arm_l.shoulder.angle = 80
         self.arm_l.elbow.angle = 0
         self.arm_l.level_hand = True
@@ -137,6 +150,18 @@ class Plank(Standing):
         self.leg_l.level_foot = False
         self.leg_l.foot.angle = 80
         self.sync_lr()
+
+    # let the toes and hands touch the ground
+    def orientate(self):
+        self.align_joints(self.leg_l.toe, self.arm_l.hand, 0)
+
+
+class Lunge(Plank):
+    def __init__(self):
+        super().__init__()
+        self.leg_r.hip.angle = 170
+        self.leg_r.knee.angle = 90
+        self.leg_r.level_foot = True
 
 
 class Chaturanga(Plank):
@@ -169,7 +194,6 @@ class UpDog(Chaturanga):
         self.sync_lr()
 
 
-
 class DownDog(Asana):
     def __init__(self):
         super().__init__()
@@ -183,10 +207,6 @@ class DownDog(Asana):
         self.arm_l.elbow.angle = 0
         self.sync_lr()
 
-
-class Lunge(Plank):
-    def __init__(self):
-        super().__init__()
-        self.leg_r.hip.angle = 170
-        self.leg_r.knee.angle = 90
-        self.leg_r.level_foot = True
+    # let the toes and hands touch the ground
+    def orientate(self):
+        self.align_joints(self.leg_l.toe, self.arm_l.hand, 0)

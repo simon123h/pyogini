@@ -44,13 +44,14 @@ class Body(Bodypart):
     # update the position and rotation of the joints
     def update(self):
         # update head position
-        self.head.neck.pos = (self.pos[0] + self.length*math.sin(self.angle),
-                              self.pos[1] - self.length*math.cos(self.angle))
+        angle = self.angle * math.pi / 180
+        self.head.neck.pos = (self.pos[0] + self.length*math.sin(angle),
+                              self.pos[1] - self.length*math.cos(angle))
         self.head.angle = self.angle
         self.head.update()
         # update arm positions
-        self.arm_l.shoulder.pos = (self.pos[0] + self.length*0.9*math.sin(self.angle),
-                                   self.pos[1] - self.length*0.9*math.cos(self.angle))
+        self.arm_l.shoulder.pos = (self.pos[0] + self.length*0.9*math.sin(angle),
+                                   self.pos[1] - self.length*0.9*math.cos(angle))
         self.arm_l.angle = self.angle
         self.arm_l.update()
         self.arm_r.shoulder.pos = self.arm_l.shoulder.pos
@@ -64,8 +65,6 @@ class Body(Bodypart):
         self.leg_r.angle = self.angle
         self.leg_r.update()
 
-    def level(self, joint_A, joint_B):
-        pass
 
     def draw(self, screen):
         # draw head
@@ -91,7 +90,7 @@ class Head(Bodypart):
         # self.color = (255, 0, 0)
 
     def update(self):
-        angle = self.angle + self.neck.angle
+        angle = (self.angle + self.neck.angle) * math.pi / 180
         self.crown.pos = (self.neck.x+self.radius*math.sin(angle),
                           self.neck.y-self.radius*math.cos(angle))
 
@@ -119,13 +118,13 @@ class Arm(Bodypart):
         # self.color = (0, 255, 0)
 
     def update(self):
-        angle = -self.angle + self.shoulder.angle
+        angle = (-self.angle + self.shoulder.angle) * math.pi / 180
         self.elbow.pos = (self.shoulder.x+self.length/2*math.sin(angle),
                           self.shoulder.y+self.length/2*math.cos(angle))
-        angle += self.elbow.angle
+        angle += self.elbow.angle * math.pi / 180
         self.hand.pos = (self.elbow.x+self.length/2*math.sin(angle),
                          self.elbow.y+self.length/2*math.cos(angle))
-        angle += -self.hand.angle
+        angle += -self.hand.angle * math.pi / 180
         if self.level_hand:
             angle = math.pi / 2
         self.finger.pos = (self.hand.x+self.length/10*math.sin(angle),
@@ -157,13 +156,13 @@ class Leg(Bodypart):
         # self.color = (0, 0, 255)
 
     def update(self):
-        angle = -self.angle + self.hip.angle
+        angle = (-self.angle + self.hip.angle) * math.pi / 180
         self.knee.pos = (self.hip.x+self.length/2*math.sin(angle),
                          self.hip.y+self.length/2*math.cos(angle))
-        angle -= self.knee.angle
+        angle -= self.knee.angle * math.pi / 180
         self.foot.pos = (self.knee.x+self.length/2*math.sin(angle),
                          self.knee.y+self.length/2*math.cos(angle))
-        angle += self.foot.angle
+        angle += self.foot.angle * math.pi / 180
         if self.level_foot:
             angle = math.pi / 2
         self.toe.pos = (self.foot.x+self.length/6*math.sin(angle),
