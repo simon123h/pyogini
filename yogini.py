@@ -16,8 +16,15 @@ class Yogini:
         self.body = Torso()
         # Start with a basic asana
         self.do_asana(Asana())
+        # root body position
+        ssize = pygame.display.get_surface().get_size()
+        self.pos = [ssize[0] / 2, ssize[1] / 2]
+        # body rotation
+        self.angle = 0
 
     def draw(self, screen):
+        # update the position of the body parts
+        self.body.update()
         # draw each body part
         self.body.draw(screen)
 
@@ -76,31 +83,40 @@ class Torso(Bodypart):
         ssize = pygame.display.get_surface().get_size()
         self.pos = [ssize[0] / 2, ssize[1] / 2]
 
-    def draw(self, screen):
-        # draw head
-        neck_pos = (self.x + self.length*math.sin(self.angle),
-                    self.y - self.length*math.cos(self.angle))
-        self.head.pos = neck_pos
+    # update the position and rotation of the joints
+    def update(self):
+        # update head position
+        self.head.pos = (self.x + self.length*math.sin(self.angle),
+                         self.y - self.length*math.cos(self.angle))
         self.head.angle = self.angle
-        self.head.draw(screen)
-        # draw torso
-        draw_line(screen, self.color, self.pos,
-                  self.head.pos, self.thickness)
-        # draw arms
+        self.head.update()
+        # update arm positions
         shoulderpos = (self.x + self.length*0.9*math.sin(self.angle),
                        self.y - self.length*0.9*math.cos(self.angle))
         self.arm_l.pos = shoulderpos
         self.arm_l.angle = self.angle
-        self.arm_l.draw(screen)
+        self.arm_l.update()
         self.arm_r.pos = shoulderpos
         self.arm_r.angle = self.angle
-        self.arm_r.draw(screen)
-        # draw legs
+        self.arm_r.update()
+        # update leg positions
         self.leg_l.pos = self.pos
         self.leg_l.angle = self.angle
-        self.leg_l.draw(screen)
+        self.leg_l.update()
         self.leg_r.pos = self.pos
         self.leg_r.angle = self.angle
+        self.leg_r.update()
+
+    def draw(self, screen):
+        # draw head
+        self.head.draw(screen)
+        # draw torso
+        draw_line(screen, self.color, self.pos, self.head.pos, self.thickness)
+        # draw arms
+        self.arm_l.draw(screen)
+        self.arm_r.draw(screen)
+        # draw legs
+        self.leg_l.draw(screen)
         self.leg_r.draw(screen)
 
 
@@ -111,19 +127,22 @@ class Head(Bodypart):
         self.neck_angle = 0
         super().__init__()
         # self.color = (255, 0, 0)
+        self.crown_pos = (0, 0)  # position of the crown
+
+    def update(self):
+        angle = self.angle+self.neck_angle
+        self.crown_pos = (self.x+self.radius*math.sin(angle),
+                          self.y-self.radius*math.cos(angle))
 
     def draw(self, screen):
-        angle = self.angle+self.neck_angle
-        cpos = (self.x+self.radius*math.sin(angle),
-                self.y-self.radius*math.cos(angle))
-        pygame.gfxdraw.filled_circle(screen, int(cpos[0]), int(cpos[1]),
-                                     int(self.radius), self.color)
-        pygame.gfxdraw.aacircle(screen, int(cpos[0]), int(cpos[1]),
-                                int(self.radius), self.color)
-        pygame.gfxdraw.filled_circle(screen, int(cpos[0]), int(cpos[1]),
-                                     int(self.radius*0.7), (255, 255, 255))
-        pygame.gfxdraw.aacircle(screen, int(cpos[0]), int(cpos[1]),
-                                int(self.radius*0.7), (255, 255, 255))
+        pygame.gfxdraw.filled_circle(screen, int(self.crown_pos[0]), int(
+            self.crown_pos[1]), int(self.radius), self.color)
+        pygame.gfxdraw.aacircle(screen, int(self.crown_pos[0]), int(
+            self.crown_pos[1]), int(self.radius), self.color)
+        pygame.gfxdraw.filled_circle(screen, int(self.crown_pos[0]), int(
+            self.crown_pos[1]), int(self.radius*0.7), (255, 255, 255))
+        pygame.gfxdraw.aacircle(screen, int(self.crown_pos[0]), int(
+            self.crown_pos[1]), int(self.radius*0.7), (255, 255, 255))
 
 
 class Arm(Bodypart):
@@ -136,28 +155,33 @@ class Arm(Bodypart):
         self.level_hand = False
         super().__init__()
         # self.color = (0, 255, 0)
+        self.elbow_pos = (0, 0)
+        self.hand_pos = (0, 0)
+        self.finger_pos = (0, 0)
 
-    def draw(self, screen):
-        # draw upper arm
+    def update(self):
         angle = -self.angle + self.arm_angle
-        elbow_pos = (self.x+self.length/2*math.sin(angle),
-                     self.y+self.length/2*math.cos(angle))
-        draw_line(screen, self.color, self.pos,
-                  elbow_pos, self.thickness)
-        # draw lower arm
+        self.elbow_pos = (self.x+self.length/2*math.sin(angle),
+                          self.y+self.length/2*math.cos(angle))
         angle += self.elbow_angle
-        hand_pos = (elbow_pos[0]+self.length/2*math.sin(angle),
-                    elbow_pos[1]+self.length/2*math.cos(angle))
-        draw_line(screen, self.color, elbow_pos,
-                  hand_pos, self.thickness)
-        # draw hand
+        self.hand_pos = (self.elbow_pos[0]+self.length/2*math.sin(angle),
+                         self.elbow_pos[1]+self.length/2*math.cos(angle))
         angle += -self.hand_angle
         if self.level_hand:
             angle = math.pi / 2
-        finger_pos = (hand_pos[0]+self.length/10*math.sin(angle),
-                      hand_pos[1]+self.length/10*math.cos(angle))
-        draw_line(screen, self.color, hand_pos,
-                  finger_pos, self.thickness)
+        self.finger_pos = (self.hand_pos[0]+self.length/10*math.sin(angle),
+                           self.hand_pos[1]+self.length/10*math.cos(angle))
+
+    def draw(self, screen):
+        # draw upper arm
+        draw_line(screen, self.color, self.pos,
+                  self.elbow_pos, self.thickness)
+        # draw lower arm
+        draw_line(screen, self.color, self.elbow_pos,
+                  self.hand_pos, self.thickness)
+        # draw hand
+        draw_line(screen, self.color, self.hand_pos,
+                  self.finger_pos, self.thickness)
 
 
 class Leg(Bodypart):
@@ -170,28 +194,33 @@ class Leg(Bodypart):
         self.level_foot = True
         super().__init__()
         # self.color = (0, 0, 255)
+        self.knee_pos = (0, 0)
+        self.foot_pos = (0, 0)
+        self.toe_pos = (0, 0)
 
-    def draw(self, screen):
-        # draw upper leg
+    def update(self):
         angle = -self.angle + self.leg_angle
-        knee_pos = (self.x+self.length/2*math.sin(angle),
-                    self.y+self.length/2*math.cos(angle))
-        draw_line(screen, self.color, self.pos,
-                  knee_pos, self.thickness)
-        # draw lower leg
+        self.knee_pos = (self.x+self.length/2*math.sin(angle),
+                         self.y+self.length/2*math.cos(angle))
         angle -= self.knee_angle
-        foot_pos = (knee_pos[0]+self.length/2*math.sin(angle),
-                    knee_pos[1]+self.length/2*math.cos(angle))
-        draw_line(screen, self.color, knee_pos,
-                  foot_pos, self.thickness)
-        # draw foot
+        self.foot_pos = (self.knee_pos[0]+self.length/2*math.sin(angle),
+                         self.knee_pos[1]+self.length/2*math.cos(angle))
         angle += self.foot_angle
         if self.level_foot:
             angle = math.pi / 2
-        toe_pos = (foot_pos[0]+self.length/6*math.sin(angle),
-                   foot_pos[1]+self.length/6*math.cos(angle))
-        draw_line(screen, self.color, foot_pos,
-                  toe_pos, self.thickness)
+        self.toe_pos = (self.foot_pos[0]+self.length/6*math.sin(angle),
+                        self.foot_pos[1]+self.length/6*math.cos(angle))
+
+    def draw(self, screen):
+        # draw upper leg
+        draw_line(screen, self.color, self.pos,
+                  self.knee_pos, self.thickness)
+        # draw lower leg
+        draw_line(screen, self.color, self.knee_pos,
+                  self.foot_pos, self.thickness)
+        # draw foot
+        draw_line(screen, self.color, self.foot_pos,
+                  self.toe_pos, self.thickness)
 
 
 # draw an anti-aliased line with rounded corners
