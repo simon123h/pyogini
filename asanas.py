@@ -135,6 +135,7 @@ class ForwardFold(Standing):
         self.arm_l.elbow.angle = 0
         self.arm_l.hand.angle = 0
         self.head.neck.angle = 50
+        self.bending = 15
         # sync left-right
         self.sync_lr()
 
@@ -145,6 +146,7 @@ class HalfwayLift(ForwardFold):
         self.name = "Halfway Fold"
         self.sanskrit = "Ardha Uttanasana"
         self.head.neck.angle = -20
+        self.bending = -20
         # sync left-right
         self.sync_lr()
 
@@ -200,10 +202,12 @@ class UpDog(Chaturanga):
         self.name = "Upward Facing Dog"
         self.angle = 60
         self.head.neck.angle = -40
-        self.leg_l.hip.angle = -15
-        self.leg_l.foot.angle = 0
+        self.leg_l.hip.angle = -30
+        self.leg_l.knee.angle = 5
+        self.leg_l.foot.angle = -5
         self.arm_l.shoulder.angle = 65
-        self.arm_l.elbow.angle = 0
+        self.arm_l.elbow.angle = 10
+        self.bending = -40
         self.sync_lr()
 
 
@@ -215,6 +219,7 @@ class DownDog(Asana):
         self.leg_l.hip.angle = 85
         self.arm_l.shoulder.angle = 190
         self.arm_l.elbow.angle = 0
+        self.bending = -5
         self.sync_lr()
 
     # let the toes and hands touch the ground
