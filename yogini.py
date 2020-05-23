@@ -1,9 +1,8 @@
 import math
 import numpy as np
 from body import Body
+from studio import Studio
 from asanas import Asana
-from gui import draw_line
-import pygame
 
 """
 The Yogini: has a body and can perform Asanas
@@ -13,22 +12,20 @@ The Yogini: has a body and can perform Asanas
 class Yogini:
 
     def __init__(self):
+        # We have a studio!
+        self.studio = Studio()
         # The torso is the "head node" of the body
         self.body = Body()
-        # height of the ground
-        self.ground_level = 500
         # Start with a basic asana
         self.do_asana(Asana())
 
     def draw(self, screen):
+        # draw the studio
+        self.studio.draw(screen)
         # update the position of the body parts
         self.body.update()
         # draw each body part
         self.body.draw(screen)
-        # draw bottom line
-        size = pygame.display.get_surface().get_size()
-        draw_line(screen, (40, 40, 80), (0, self.ground_level),
-                  (size[0], self.ground_level), 4)
 
     def do_asana(self, asana):
         # general body rotation
@@ -63,5 +60,5 @@ class Yogini:
                   self.body.arm_r.finger, self.body.leg_l.hip, self.body.leg_l.knee, self.body.leg_l.foot, self.body.leg_l.toe, self.body.leg_r.hip, self.body.leg_r.knee, self.body.leg_r.foot, self.body.leg_r.toe]
         miny = np.max([joint.y for joint in joints])
         self.body.pos = (self.body.pos[0],
-                         self.body.pos[1]-miny+self.ground_level-self.body.leg_l.thickness)
+                         self.body.pos[1]-miny+self.studio.ground_level-self.body.leg_l.thickness)
         self.body.update()
