@@ -18,10 +18,9 @@ FPS = 60
 yogini = Yogini()
 ssize = pygame.display.get_surface().get_size()
 yogini.body.pos = [ssize[0] / 2, ssize[1] / 2]
+yogini.sequence = sun_A
 
 time = 0
-index = 0
-latest_asana = None
 
 running = True
 while running:
@@ -34,18 +33,14 @@ while running:
             running = False
         if event.type == pygame.VIDEORESIZE:
             yogini.body.pos = [event.w / 2, event.h / 2]
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_w:
-                index += 1
+        # elif event.type == pygame.KEYDOWN:
+        #     if event.key == pygame.K_w:
+        #         index += 1
         # elif event.type == pygame.KEYUP:
 
     time += dt
 
-    asana = sun_A.get_asana(time)
-    if latest_asana is not asana:
-        yogini.do_asana(asana)
-        latest_asana = asana
-
+    yogini.live(time)
     yogini.draw(screen)
 
     pygame.display.update()  # Or pygame.display.flip()

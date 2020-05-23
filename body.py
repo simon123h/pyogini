@@ -39,6 +39,12 @@ class Body(Bodypart):
         self.leg_l = Leg()
         self.leg_r = Leg()
         self.pos = (0, 0)  # spatial coordinates
+        # list of all joints
+        self.joints = [self.neck, self.head.crown,
+                       self.arm_l.shoulder, self.arm_l.elbow, self.arm_l.hand, self.arm_l.finger,
+                       self.arm_r.shoulder, self.arm_r.elbow, self.arm_r.hand, self.arm_r.finger,
+                       self.leg_l.hip, self.leg_l.knee, self.leg_l.foot, self.leg_l.toe,
+                       self.leg_r.hip, self.leg_r.knee, self.leg_r.foot, self.leg_r.toe]
         super().__init__()
 
     # update the position and rotation of the joints
@@ -64,7 +70,6 @@ class Body(Bodypart):
         self.leg_r.hip.pos = self.leg_l.hip.pos
         self.leg_r.angle = self.angle
         self.leg_r.update()
-
 
     def draw(self, screen):
         # draw head
