@@ -1,11 +1,13 @@
 from asanas import *
 
+SPEED=1
+
 class Sequence:
 
     def __init__(self, name):
         self.name = name
         self.asanas = []
-        self.breath_duration = 4
+        self.breath_duration = 4/SPEED
 
     def add_asana(self, asana, breath=None, time=None):
         self.asanas.append(asana)
@@ -19,7 +21,9 @@ class Sequence:
         self.asanas += sequence.asanas
 
     def get_asana(self, time, shift_index=0):
-        time = time % self.total_time()
+        # time = time % self.total_time()
+        if time >= self.total_time():
+            return self.asanas[-1], self.total_time() - time
         index = -1
         while time >= 0:
             index += 1
@@ -46,56 +50,60 @@ for i in range(5):
 vinyasa_cat_to_stand = Sequence("Vinyasa")
 vinyasa_cat_to_stand.add_asana(AllFours(), "i")
 vinyasa_cat_to_stand.add_asana(DownDog(), "o")
-vinyasa_cat_to_stand.add_asana(LowLungeToPlankHelper(), time=1.5, breath="")
+vinyasa_cat_to_stand.add_asana(LowLungeToPlankHelper(), time=1.5/SPEED, breath="")
 vinyasa_cat_to_stand.add_asana(LowLunge(), "i")
 vinyasa_cat_to_stand.add_asana(ForwardFold(), "o")
 vinyasa_cat_to_stand.add_asana(UpwardSalute(), "i")
 vinyasa_cat_to_stand.add_asana(Standing(), "o")
 
 sun_A = Sequence("Sun Salutation A")
-sun_A.add_asana(Standing(), "io")
+sun_A.add_asana(Standing(), "o")
 sun_A.add_asana(UpwardSalute(), "i")
 sun_A.add_asana(ForwardFold(), "o")
 sun_A.add_asana(HalfwayLift(), "i")
 sun_A.add_asana(LowLunge(), "o")
-sun_A.add_asana(LowLungeToPlankHelper(), time=1.5, breath="")
+sun_A.add_asana(LowLungeToPlankHelper(), time=1.5/SPEED, breath="")
 sun_A.add_asana(Plank(), "i")
 sun_A.add_asana(Chaturanga(), "o")
 sun_A.add_asana(UpDog(), "i")
 sun_A.add_asana(DownDog(), "oioio")
 sun_A.add_asana(LowLunge(), "i")
 sun_A.add_asana(ForwardFold(), "o")
+sun_A.add_asana(UpwardSalute(), "i")
+sun_A.add_asana(Standing(), "o")
 
 sun_B = Sequence("Sun Salutation B")
-sun_B.add_asana(Chair(), "i")
+sun_B.add_asana(Chair(), "ioi")
 sun_B.add_asana(ForwardFold(), "o")
 sun_B.add_asana(HalfwayLift(), "i")
 sun_B.add_asana(LowLunge(), "o")
-sun_B.add_asana(LowLungeToPlankHelper(), time=1.5, breath="")
+sun_B.add_asana(LowLungeToPlankHelper(), time=1.5/SPEED, breath="")
 sun_B.add_asana(Plank(), "i")
 sun_B.add_asana(Chaturanga(), "o")
 sun_B.add_asana(UpDog(), "i")
 sun_B.add_asana(DownDog(), "o")
-sun_B.add_asana(LowLungeToPlankHelper(), time=1, breath="")
-sun_B.add_asana(LowLunge(), time=1, breath="")
+sun_B.add_asana(LowLungeToPlankHelper(), time=1/SPEED, breath="")
+sun_B.add_asana(LowLunge(), time=1/SPEED, breath="")
 sun_B.add_asana(Warrior1(), "i")
 sun_B.add_asana(LowLunge(), "o")
-sun_B.add_asana(LowLungeToPlankHelper(), time=1.5, breath="")
+sun_B.add_asana(LowLungeToPlankHelper(), time=1.5/SPEED, breath="")
 sun_B.add_asana(Plank(), "i")
 sun_B.add_asana(Chaturanga(), "o")
 sun_B.add_asana(UpDog(), "i")
 sun_B.add_asana(DownDog(), "o")
-sun_B.add_asana(LowLungeToPlankHelper(), time=1, breath="")
-sun_B.add_asana(LowLunge(), time=1, breath="")
+sun_B.add_asana(LowLungeToPlankHelper(), time=1/SPEED, breath="")
+sun_B.add_asana(LowLunge(), time=1/SPEED, breath="")
 sun_B.add_asana(Warrior1(), "i")
 sun_B.add_asana(LowLunge(), "o")
-sun_B.add_asana(LowLungeToPlankHelper(), time=1.5, breath="")
+sun_B.add_asana(LowLungeToPlankHelper(), time=1.5/SPEED, breath="")
 sun_B.add_asana(Plank(), "i")
 sun_B.add_asana(Chaturanga(), "o")
 sun_B.add_asana(UpDog(), "i")
 sun_B.add_asana(DownDog(), "oioioioioio")
 sun_B.add_asana(LowLunge(), "i")
 sun_B.add_asana(ForwardFold(), "o")
+sun_A.add_asana(Chair(), "i")
+sun_A.add_asana(Standing(), "o")
 
 
 ashtanga = Sequence("Ashtanga Yoga")

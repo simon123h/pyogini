@@ -51,7 +51,8 @@ class Yogini:
         # breathe
         if asana.breath != "":
             breath_index = math.floor(time_in / asana.time * len(asana.breath))
-            self.breathe(asana.breath[breath_index])
+            if breath_index < len(asana.breath):
+                self.breathe(asana.breath[breath_index])
 
     # make breathing sounds
     def breathe(self, io):

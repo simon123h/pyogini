@@ -243,6 +243,7 @@ class DownDog(Asana):
     # let the toes and hands touch the ground
     def orientate(self):
         self.align_hands_with_ground()
+        self.align_feet_with_ground()
         self.align_joints(self.leg_l.toe, self.arm_l.hand, 0)
 
 
