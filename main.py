@@ -2,12 +2,9 @@
 
 import pygame
 from yogini import Yogini
-from sequences import sun_A, sun_B, meditation, catcow, ashtanga
-
+from sequences import sun_A, sun_B, ashtanga
 
 successes, failures = pygame.init()
-print("Initializing pygame: {0} successes and {1} failures.".format(
-    successes, failures))
 
 screen = pygame.display.set_mode((1024, 720))
 # screen = pygame.display.set_mode((0, 0), pygame.RESIZABLE)
