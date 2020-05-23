@@ -10,8 +10,8 @@ class Asana:
         # head
         self.neck_angle = 0
         # arms
-        self.arm_angle_l = 45
-        self.arm_angle_r = 45
+        self.shoulder_angle_l = 45
+        self.shoulder_angle_r = 45
         self.elbow_angle_l = 45
         self.elbow_angle_r = 45
         self.hand_angle_l = 90
@@ -19,8 +19,8 @@ class Asana:
         self.level_hand_l = False
         self.level_hand_r = False
         # legs
-        self.leg_angle_l = 0
-        self.leg_angle_r = 0
+        self.hip_angle_l = 0
+        self.hip_angle_r = 0
         self.knee_angle_l = 0
         self.knee_angle_r = 0
         self.foot_angle_l = 90
@@ -29,25 +29,25 @@ class Asana:
         self.level_foot_r = True
 
     def sync_arms_lr(self):
-        self.arm_angle_r = self.arm_angle_l
+        self.shoulder_angle_r = self.shoulder_angle_l
         self.elbow_angle_r = self.elbow_angle_l
         self.hand_angle_r = self.hand_angle_l
         self.level_hand_r = self.level_hand_l
 
     def sync_arms_rl(self):
-        self.arm_angle_l = self.arm_angle_r
+        self.shoulder_angle_l = self.shoulder_angle_r
         self.elbow_angle_l = self.elbow_angle_r
         self.hand_angle_l = self.hand_angle_r
         self.level_hand_l = self.level_hand_r
 
     def sync_legs_lr(self):
-        self.leg_angle_r = self.leg_angle_l
+        self.hip_angle_r = self.hip_angle_l
         self.knee_angle_r = self.knee_angle_l
         self.foot_angle_r = self.foot_angle_l
         self.level_foot_r = self.level_foot_l
 
     def sync_legs_rl(self):
-        self.leg_angle_l = self.leg_angle_r
+        self.hip_angle_l = self.hip_angle_r
         self.knee_angle_l = self.knee_angle_r
         self.foot_angle_l = self.foot_angle_r
         self.level_foot_l = self.level_foot_r
@@ -72,15 +72,15 @@ class Standing(Asana):
         # head
         self.neck_angle = 0
         # arms
-        self.arm_angle_l = 0
+        self.shoulder_angle_l = 0
         self.elbow_angle_l = 0
         self.hand_angle_l = 0
         self.level_hand_l = False
-        self.arm_angle_l = 10
+        self.shoulder_angle_l = 10
         self.elbow_angle_l = 140
         self.hand_angle_l = -20
         # legs
-        self.leg_angle_l = 0
+        self.hip_angle_l = 0
         self.knee_angle_l = 0
         self.foot_angle_l = 90
         self.level_foot_l = True
@@ -93,7 +93,7 @@ class UpwardSalute(Standing):
         super().__init__()
         self.name = "Upward Salute"
         self.sanskrit = "Urdhva Hastasana"
-        self.arm_angle_l = 170
+        self.shoulder_angle_l = 170
         self.elbow_angle_l = 0
         self.hand_angle_l = 0
         self.neck_angle = -20
@@ -107,8 +107,8 @@ class ForwardFold(Standing):
         self.name = "Forward Fold"
         self.sanskrit = "Uttanasana"
         self.body_angle = 122
-        self.leg_angle_l = 122
-        self.arm_angle_l = 100
+        self.hip_angle_l = 122
+        self.shoulder_angle_l = 100
         self.elbow_angle_l = 0
         self.hand_angle_l = 0
         self.neck_angle = 50
@@ -129,10 +129,10 @@ class Plank(Standing):
     def __init__(self):
         super().__init__()
         self.body_angle = 77
-        self.arm_angle_l = 80
+        self.shoulder_angle_l = 80
         self.elbow_angle_l = 0
         self.level_hand_l = True
-        self.leg_angle_l = 5
+        self.hip_angle_l = 5
         self.level_foot_l = False
         self.foot_angle_l = 80
         self.sync_lr()
@@ -145,10 +145,10 @@ class Chaturanga(Plank):
         self.sanskrit = "Ashtanga Chaturanga"
         self.body_angle = 90
         self.neck_angle = -20
-        self.arm_angle_l = -40
+        self.shoulder_angle_l = -40
         self.elbow_angle_l = 120
         self.level_hand_l = True
-        self.leg_angle_l = 0
+        self.hip_angle_l = 0
         self.level_foot_l = False
         self.foot_angle_l = 80
         self.sync_lr()
@@ -160,10 +160,10 @@ class UpDog(Chaturanga):
         self.name = "Upward Facing Dog"
         self.body_angle = 60
         self.neck_angle = -40
-        self.leg_angle_l = -15
+        self.hip_angle_l = -15
         self.level_foot_l = False
         self.foot_angle_l = 0
-        self.arm_angle_l = 65
+        self.shoulder_angle_l = 65
         self.elbow_angle_l = 0
         self.sync_lr()
 
@@ -175,10 +175,10 @@ class DownDog(Asana):
         self.name = "Downward Facing Dog"
         self.body_angle = 130
         self.neck_angle = 20
-        self.leg_angle_l = 85
+        self.hip_angle_l = 85
         self.level_foot_l = True
         self.level_hand_l = True
-        self.arm_angle_l = 190
+        self.shoulder_angle_l = 190
         self.elbow_angle_l = 0
         self.sync_lr()
 
@@ -186,6 +186,6 @@ class DownDog(Asana):
 class Lunge(Plank):
     def __init__(self):
         super().__init__()
-        self.leg_angle_r = 170
+        self.hip_angle_r = 170
         self.knee_angle_r = 90
         self.level_foot_r = True

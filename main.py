@@ -2,7 +2,6 @@
 
 import pygame
 from yogini import Yogini
-import asanas
 from sequences import sun_A
 
 
@@ -10,13 +9,15 @@ successes, failures = pygame.init()
 print("Initializing pygame: {0} successes and {1} failures.".format(
     successes, failures))
 
-# screen = pygame.display.set_mode((1024, 720))
-screen = pygame.display.set_mode((0, 0), pygame.RESIZABLE)
+screen = pygame.display.set_mode((1024, 720))
+# screen = pygame.display.set_mode((0, 0), pygame.RESIZABLE)
 clock = pygame.time.Clock()
 FPS = 60
 
 # create the yogini
 yogini = Yogini()
+ssize = pygame.display.get_surface().get_size()
+yogini.body.pos = [ssize[0] / 2, ssize[1] / 2]
 
 time = 0
 index = 0
