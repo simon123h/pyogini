@@ -2,11 +2,12 @@
 
 import pygame
 from yogini import Yogini
-from sequences import sun_A, sun_B, ashtanga
+from gui import Background
+import sequences
 
 successes, failures = pygame.init()
 
-screen = pygame.display.set_mode((1024, 720))
+screen = pygame.display.set_mode((1280, 720))
 # screen = pygame.display.set_mode((0, 0), pygame.RESIZABLE)
 clock = pygame.time.Clock()
 FPS = 60
@@ -15,7 +16,7 @@ FPS = 60
 yogini = Yogini()
 ssize = pygame.display.get_surface().get_size()
 yogini.body.pos = [ssize[0] / 2, ssize[1] / 2]
-yogini.sequence = ashtanga
+yogini.sequence = sequences.ashtanga
 
 time = 0
 
@@ -37,8 +38,10 @@ while running:
 
     time += dt
 
+    # let the yogini live
     yogini.live(time)
     yogini.draw(screen)
+
 
     pygame.display.update()  # Or pygame.display.flip()
 

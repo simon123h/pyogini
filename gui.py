@@ -5,6 +5,14 @@ import pygame
 import pygame.gfxdraw
 
 
+class Background(pygame.sprite.Sprite):
+    def __init__(self, image_file, location):
+        pygame.sprite.Sprite.__init__(self)  # call Sprite initializer
+        self.image = pygame.image.load(image_file)
+        self.rect = self.image.get_rect()
+        self.rect.left, self.rect.top = location
+
+
 # draw an anti-aliased line with rounded corners
 def draw_line(screen, color, X0, X1, thickness):
     X0 = np.array(X0)

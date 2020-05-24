@@ -114,3 +114,5 @@ for i in range(4):
     ashtanga.append_sequence(sun_A)
 for i in range(4):
     ashtanga.append_sequence(sun_B)
+
+ashtanga.add_asana(Standing(), "o")
