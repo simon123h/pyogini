@@ -2,7 +2,6 @@
 
 import pygame
 from yogini import Yogini
-from gui import Background
 import sequences
 
 successes, failures = pygame.init()
@@ -24,6 +23,7 @@ running = True
 while running:
     # Returns milliseconds between each call to 'tick'. The convert time to seconds.
     dt = clock.tick(FPS) / 1000
+    time += dt
     screen.fill((255, 218, 148))  # Fill the screen with background color.
 
     for event in pygame.event.get():
@@ -31,18 +31,13 @@ while running:
             running = False
         if event.type == pygame.VIDEORESIZE:
             yogini.body.pos = [event.w / 2, event.h / 2]
-        # elif event.type == pygame.KEYDOWN:
-        #     if event.key == pygame.K_w:
-        #         index += 1
-        # elif event.type == pygame.KEYUP:
-
-    time += dt
 
     # let the yogini live
     yogini.live(time)
+
+    # ...and draw it
     yogini.draw(screen)
 
-
-    pygame.display.update()  # Or pygame.display.flip()
+    pygame.display.update()
 
 print("Exited the game loop. Game will quit...")
