@@ -22,11 +22,16 @@ class Yogini:
         # our first sequence
         self.sequence = None
         # Start with a basic asana
-        self.do_asana(Asana())
+        self.asana = Asana()
+        self.do_asana(self.asana)
+        self.time_left = -1
         # was last breath in or out?
         self.last_breath = None
         # time [sec] for transitions between asanas
         self.transition_time = 1.5
+        # font for position display
+        self.font = pygame.font.SysFont('Comic Sans MS', 40)
+        self.font_xs = pygame.font.SysFont('Comic Sans MS', 25)
 
     def draw(self, screen):
         # draw the studio
@@ -35,10 +40,26 @@ class Yogini:
         self.body.update()
         # draw each body part
         self.body.draw(screen)
+        # draw the name of the asana and the time left
+        size = pygame.display.get_surface().get_size()
+        textsurface = self.font.render(self.asana.name, False, (60, 60, 60))
+        screen.blit(textsurface, (size[0]/2 -
+                                  textsurface.get_rect().width/2, 40))
+        textsurface = self.font_xs.render(self.asana.sanskrit, False, (60, 60, 60))
+        screen.blit(textsurface, (size[0]/2 -
+                                  textsurface.get_rect().width/2, 75))
+        # io = "in" if self.last_breath == "i" else "out"
+        # textsurface = self.font.render(str(len(self.asana.breath))+" breaths "+io, False, (50, 50, 50))
+        # screen.blit(textsurface, (2*size[0]/3 -
+        #                           textsurface.get_rect().width/2, 55))
 
     def live(self, time):
         # do everything a yogi does!
+        # get the current asana of the sequence
         asana, time_left = self.sequence.get_asana(time)
+        self.asana = asana
+        self.time_left = time_left
+        # do fancy transitions and perform the asanas
         time_in = asana.time - time_left
         transition_time = min(asana.time*0.8, self.transition_time)
         if time_in < transition_time:
