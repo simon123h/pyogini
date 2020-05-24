@@ -1,6 +1,6 @@
 from asanas import *
 
-SPEED=2
+SPEED=1
 
 class Sequence:
 
