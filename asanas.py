@@ -468,6 +468,76 @@ class LotusFront(Asana):
         self.align_joints(self.neck, self.leg_l.hip, 90)
 
 
+class LotusLiftedArms(LotusFront):
+    def __init__(self):
+        super().__init__()
+        self.arm_l.shoulder.angle = -162
+        self.arm_l.elbow.angle = -30
+        self.arm_l.hand.angle = 8
+        self.arm_r.shoulder.angle = 162
+        self.arm_r.elbow.angle = 30
+        self.arm_r.hand.angle = -8
+
+
+class SeatedSideBend(LotusLiftedArms):
+    def __init__(self, right=True):
+        super().__init__()
+        self.name = "Seated Side Bend"
+        self.sanskrit = "Parsva Sukhasana"
+        if right:
+            self.bending = 40
+            self.arm_r.shoulder.angle = 60
+            self.arm_r.elbow.angle = -15
+            self.arm_r.hand.angle = 0
+            self.arm_l.shoulder.angle = -140
+            self.arm_l.elbow.angle = -40
+            self.arm_l.hand.angle = 0
+            self.leg_l.hip.angle += self.bending / 2 + 10
+            self.leg_r.hip.angle += self.bending / 2 + 10
+            self.neck.angle = self.bending / 2
+        else:
+            self.bending = -40
+            self.arm_l.shoulder.angle = -60
+            self.arm_l.elbow.angle = 15
+            self.arm_l.hand.angle = 0
+            self.arm_r.shoulder.angle = 140
+            self.arm_r.elbow.angle = 40
+            self.arm_r.hand.angle = 0
+            self.leg_r.hip.angle += self.bending / 2 - 10
+            self.leg_l.hip.angle += self.bending / 2 - 10
+            self.neck.angle = self.bending / 2
+
+    def orientate(self):
+        self.align_joints(self.leg_r.knee, self.leg_l.knee, 0)
+
+
+class SeatedTwist(LotusLiftedArms):
+    def __init__(self, right=True):
+        super().__init__()
+        self.name = "Seated Twist"
+        self.name = "Ardha Matsyendrasana"
+        self.bending = 0
+        if right:
+            self.arm_r.shoulder.angle = 10
+            self.arm_r.elbow.angle = 0
+            self.arm_r.hand.angle = 0
+            self.arm_l.shoulder.angle = 25
+            self.arm_l.elbow.angle = 20
+            self.arm_l.hand.angle = 0
+            self.neck.angle = -10
+        else:
+            self.arm_r.shoulder.angle = -10
+            self.arm_r.elbow.angle = 0
+            self.arm_r.hand.angle = 0
+            self.arm_l.shoulder.angle = -25
+            self.arm_l.elbow.angle = -20
+            self.arm_l.hand.angle = 0
+            self.neck.angle = 10
+
+    def orientate(self):
+        self.align_joints(self.leg_r.knee, self.leg_l.knee, 0)
+
+
 class Triangle(Standing):
     def __init__(self):
         super().__init__()
@@ -681,22 +751,6 @@ class HeadToKneePose(SeatedForwardFold):
         self.align_joints(self.leg_l.hip, self.leg_l.foot, 0)
 
 
-class SittingTwist(Lotus):
-    def __init__(self):
-        super().__init__()
-        self.name = "Sitting Twist"
-        self.sanskrit = "Ardha Matsyendrasana"
-        self.bending = 20
-        self.neck.angle = 0
-        self.arm_r.shoulder.angle = -30
-        self.arm_r.elbow.angle = 0
-        self.leg_r.hip.angle = 160
-        self.leg_r.knee.angle = 130
-
-    def orientate(self):
-        self.align_joints(self.leg_l.hip, self.leg_l.knee, 0)
-
-
 class Shoulderstand(Asana):
     def __init__(self):
         super().__init__()
@@ -709,7 +763,6 @@ class Shoulderstand(Asana):
         self.arm_l.elbow.angle = 100
         self.arm_l.hand.angle = 0
         self.sync_lr()
-
 
     def orientate(self):
         self.align_joints(self.leg_l.foot, self.leg_l.hip, 90)
@@ -727,7 +780,6 @@ class Plow(Shoulderstand):
         self.arm_l.elbow.angle = 35
         self.arm_l.hand.angle = 0
         self.sync_lr()
-
 
     def orientate(self):
         self.align_joints(self.leg_l.toe, self.head.crown, -10)

@@ -1,6 +1,6 @@
 from asanas import *
 
-SPEED=1
+SPEED=3
 
 class Sequence:
 
@@ -118,3 +118,19 @@ for i in range(4):
     ashtanga.append_sequence(sun_B)
 
 ashtanga.add_asana(Standing(), "o")
+
+
+linda_55 = Sequence("Linda 5.5")
+linda_55.add_asana(LotusLiftedArms(), "ioi")
+linda_55.add_asana(SeatedSideBend(right=True), "oioioio")
+linda_55.add_asana(LotusLiftedArms(), "ioi")
+linda_55.add_asana(SeatedSideBend(right=False), "oioioio")
+linda_55.add_asana(LotusLiftedArms(), "ioi")
+linda_55.add_asana(SeatedTwist(right=True), "oioioio")
+linda_55.add_asana(LotusLiftedArms(), "ioi")
+linda_55.add_asana(SeatedTwist(right=False), "oioioio")
+linda_55.add_asana(LotusLiftedArms(), "ioi")
+linda_55.add_asana(LotusFront(), "ioioioioio")
+linda_55.append_sequence(catcow)
+for i in range(4):
+    linda_55.append_sequence(sun_A)
