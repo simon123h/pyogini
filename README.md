@@ -4,7 +4,7 @@ A virtual Yoga lesson simulation software written in Python.
 
 Let a stick figure yogini guide you through the asanas of the classical Ashtanga sequence.
 
-![Screenshot of the application](sample.png)
+![Screenshot of the application](res/sample.png)
 
 ## Requirements
 
